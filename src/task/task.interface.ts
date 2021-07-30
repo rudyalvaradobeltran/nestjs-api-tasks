@@ -1,4 +1,5 @@
-export interface TaskDTO {
-  readonly description: string;
-  readonly isDone: boolean;
+export interface TaskInterface {
+  id?: string;
+  description: string;
+  isDone: boolean;
 }

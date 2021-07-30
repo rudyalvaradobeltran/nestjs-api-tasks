@@ -1,25 +1,41 @@
-import { Controller, Post, Get, Req, Param, Query, Body } from '@nestjs/common';
-import { Request } from 'express';
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  Param,
+  Put,
+  Delete,
+} from '@nestjs/common';
+import { TaskDTO } from './dto/task.dto';
+import { TaskService } from './task.service';
 
 @Controller('api/v1/task')
 export class TaskController {
-  @Post(':id')
-  method(@Param('id') id: string) {
-    return { id };
-  }
-
-  @Get('done')
-  method2(@Req() req: Request) {
-    return 'method ' + req.method;
-  }
+  constructor(private readonly taskService: TaskService) {}
 
   @Post()
-  method3(@Query('id') id: string) {
-    return { id };
+  create(@Body() taskDTO: TaskDTO) {
+    return this.taskService.create(taskDTO);
   }
 
-  @Post()
-  method4(@Body() body: any) {
-    return body;
+  @Get()
+  findAll() {
+    return this.taskService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.taskService.findOne(id);
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() taskDTO: TaskDTO) {
+    return this.taskService.update(id, taskDTO);
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.taskService.delete(id);
   }
 }
